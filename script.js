@@ -75,38 +75,71 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// Contact Form Handling
-const contactForm = document.getElementById('contactForm');
+/* New form */
+const form = document.getElementById("form");
+const result = document.getElementById("result");
 
-contactForm.addEventListener('submit', (e) => {
+form.addEventListener("submit", function (e) {
     e.preventDefault();
-    
-    // Get form values
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const message = document.getElementById('message').value;
-    
-    // Create mailto link with form data
-    const subject = encodeURIComponent(`Consultation Request from ${name}`);
-    const body = encodeURIComponent(
-        `Name: ${name}\n` +
-        `Email: ${email}\n` +
-        `Phone: ${phone || 'Not provided'}\n\n` +
-        `Message:\n${message}`
-    );
-    
-    const mailtoLink = `mailto:ladniklaw@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Open email client
-    window.location.href = mailtoLink;
-    
-    // Show success message
-    alert('Thank you for your inquiry! Your default email client will open with your message. Please send the email to complete your consultation request.');
-    
-    // Reset form
-    contactForm.reset();
+
+    let submissionSucceeded = false;
+
+    const formData = new FormData(form);
+
+    // Get the name input value
+    const name = formData.get("name");
+
+    // Create a custom subject
+    const subject = `${name} sent a message through LadnikLaw.com`;
+
+    // Append the custom subject to the form data
+    formData.append("subject", subject);
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    result.innerHTML = "Please wait...";
+
+    fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: json,
+    })
+        .then(async (response) => {
+            let json = await response.json();
+            if (response.status == 200) {
+                submissionSucceeded = true;
+                result.style.display = "block";
+                result.innerHTML = `${json.message} Someone from the offices of Ladnik Law will contact you shortly.`;
+            } else {
+                console.log(response);
+                submissionSucceeded = false;
+                result.style.display = "block";
+                result.innerHTML = json.message;
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            submissionSucceeded = false;
+            result.style.display = "block";
+            result.innerHTML = "Something went wrong!";
+        })
+        .then(function () {
+            if (submissionSucceeded) {
+                form.reset();
+                return;
+            }
+
+            setTimeout(() => {
+                result.style.display = "none";
+            }, 3000);
+        });
 });
+
+/* End new form */
 
 // Intersection Observer for fade-in animations
 const observerOptions = {

@@ -411,24 +411,73 @@
                     </div>
                 </div>
                 <div class="contact-form-wrapper">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone (optional)</label>
-                            <input type="tel" id="phone" name="phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Submit</button>
+                    <form method="POST" id="form" class="contact-form">
+                        <input
+                            type="hidden"
+                            name="access_key"
+                            value="af57bf6c-e838-4ea0-bd06-adbc5205f316"
+                        />
+                        <!-- start custom name-->
+                        <input type="hidden"
+                        name="from_name"
+                        value="LadnikLaw.com"
+                        /> <!-- end custom name-->
+                        <input
+                            type="hidden"
+                            name="subject"
+                            value="New Submission from Web3Forms"
+                        />
+                        <input
+                            type="checkbox"
+                            name="botcheck"
+                            id=""
+                            style="display: none"
+                        />
+
+                        <label class="field">
+                            <span>Name</span>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Your full name"
+                                required
+                            />
+                        </label>
+                        <label class="field">
+                            <span>Email</span>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                required
+                            />
+                        </label>
+                        <label class="field">
+                            <span>Phone (optional)</span>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="(555) 456-7890"
+                            />
+                        </label>
+                        <label class="field">
+                            <span>Message</span>
+                            <textarea
+                                id="message"
+                                name="message"
+                                placeholder="Your message here"
+                                required
+                            ></textarea>
+                        </label>
+
+                        <button type="submit" class="button button-primary button-full">
+                            Submit
+                        </button>
+
+                        <div id="result"></div>
                     </form>
                 </div>
             </div>
