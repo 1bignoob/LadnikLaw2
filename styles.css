@@ -52,10 +52,19 @@ body {
 }
 
 .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 1.75rem;
     font-weight: bold;
     color: var(--gold);
     letter-spacing: 0.1em;
+}
+
+.nav-logo {
+    height: 48px;
+    width: auto;
+    display: block;
 }
 
 .nav-menu {
